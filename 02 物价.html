@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PPT 精讲 · 物价水平及其衡量（李坚 PPT 02 第二节）</title>
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+
+<h1>物价水平及其衡量：CPI 与通货膨胀</h1>
+<p class="subtitle">对应《02 GDP、物价、就业（李坚）》第二节（第 25–40 页）· 四大目标之二"物价稳定"</p>
+
+<div class="lesson-meta">
+  <span>预计用时：30 分钟</span>
+  <span>技能目标：会算 CPI 和通胀率；看财经新闻能拆出"谁在推动物价"</span>
+  <span>上一讲：<a href="ppt-review-intro-and-gdp.html">GDP 第一节</a> · 下一讲：<a href="ppt-review-03-employment.html">失业</a></span>
+</div>
+
+<h2>先检索回忆（30 秒）</h2>
+<details class="reveal">
+  <summary>不看笔记回答：① GDP 平减指数公式；② "实际增速 = 名义增速 − 通胀率"对吗？</summary>
+  <p>① 平减指数 = 名义 GDP ÷ 实际 GDP × 100。② 对（老师课堂口径的近似式）：名义增速里混着产量和价格两个因素，扣掉价格（通胀率）剩下的才是真实产量的增长。上一讲 2024 年的数据（名义 4.2%、实际 5.0%）你已经算过一次。</p>
+</details>
+
+<h2>怎么衡量"物价涨了没"：三种思路</h2>
+<p>几百万种商品，价格有涨有跌，"物价水平"本身没法直接看。老师的 PPT 给了三条路：</p>
+<ul>
+  <li><strong>思路一</strong>：挑几种有代表性的商品，只盯它们的价格（CPI 的做法）；</li>
+  <li><strong>思路二</strong>：把全部商品价格加权求平均（GDP 平减指数的做法）；</li>
+  <li><strong>思路三</strong>：反过来问"一块钱还能买多少东西"（货币购买力）。</li>
+</ul>
+
+<h3>货币购买力：钱的"含金量"</h3>
+<p>币值 = 货币购买力 = <strong>单位货币能买到的商品和服务数量</strong>。它和价格水平正好<strong>反向</strong>：物价涨 10%，同样的钱购买力缩水到原来的 1/1.1 ≈ 九一折。物价翻倍，钱就"毛"了一半。这就是为什么退休金、低保要跟着 CPI 调整（生活费用调整：随 CPI 上升而同比增加金额）。</p>
+
+<h3>通货膨胀：不是"东西变贵"这么简单</h3>
+<p class="formula">通货膨胀 = 一个经济体在一定时期内价格水平<strong>持续、普遍</strong>的上涨</p>
+<p>两个限定词缺一不可：<strong>持续</strong>（季节性、临时性的不算——菌子下市变贵不是通胀）、<strong>普遍</strong>（某一种商品涨价不算——黄金大涨、猪肉涨价都不是通胀）。衡量它的尺子是价格指数的变化率。</p>
+<details class="reveal">
+  <summary>用这两个限定词过一遍 PPT 的课堂练习（先自己判断再点开）</summary>
+  <p>① 菌子下市越来越贵——季节性、临时性，✗；② 超市猪肉"总是"涨价——持续但只是<strong>一类</strong>商品，✗；③ 上月国际金价大涨——单一商品、临时波动，✗；④ 20 年来房子一直涨——持续，但房子仍属单一资产类别，✗（它的部分影响会通过居住类进入 CPI，但"房价上涨"本身不叫通货膨胀）。通胀说的是<strong>整个价格水平</strong>的持续上行。</p>
+</details>
+
+<h2>尺子一：GDP 平减指数</h2>
+<p>上一讲已经算过：平减指数 = 名义 GDP ÷ 实际 GDP × 100，覆盖<strong>全部</strong>国内生产的最终货物和服务，是最综合的物价指标。记住速算式（近似）：</p>
+<p class="formula">实际增速 ≈ 名义增速 − 通胀率（平减指数涨幅）</p>
+
+<h2>尺子二：CPI——普通人的物价</h2>
+<p>CPI（Consumer Price Index）反映<strong>城乡居民家庭一般所购买的消费品和服务</strong>的价格变动。三个关键词：</p>
+<ul>
+  <li><strong>篮子</strong>：统计 8 大类、几百种商品和服务——食品烟酒、衣着、居住、生活用品及服务、交通通信、教育文化娱乐、医疗保健、其他用品及服务；</li>
+  <li><strong>权重</strong>：每类按重要程度加权（类比成绩评定：平时 20% + 期末 80% 这种"重要性"设定）；</li>
+  <li><strong>基期 5 年一调</strong>：篮子和基期每 5 年轮换一次，跟上消费结构的变化。</li>
+</ul>
+<p>中国 CPI 构成（估计值）里<strong>食品烟酒占 28–30%</strong>、居住 22–23%；美国则是住房 42% 权重最大、饮食只占 15%——权重结构不同，同样的世界，两国 CPI 的"体感"可以完全不同。</p>
+
+<h3>CPI 怎么算（02 PPT 原题，动手复现）</h3>
+<p>假设篮子里只有 3 种商品，基期（2015 年）买齐这篮子花 445 元，把这个数定义为 <strong>100</strong>：</p>
+<table>
+  <tr><th>商品</th><th>基期价格</th><th>现期价格</th><th>涨幅</th><th>权重</th><th>基期加权值</th><th>现期加权值</th></tr>
+  <tr><td>猪肉</td><td>50/公斤</td><td>60/公斤</td><td>20%</td><td>70%</td><td>35</td><td>42</td></tr>
+  <tr><td>衣服</td><td>100/件</td><td>150/件</td><td>50%</td><td>10%</td><td>10</td><td>15</td></tr>
+  <tr><td>手机</td><td>2000/台</td><td>2200/台</td><td>10%</td><td>20%</td><td>400</td><td>440</td></tr>
+  <tr><td>合计</td><td></td><td></td><td></td><td>100%</td><td>445</td><td>497</td></tr>
+</table>
+<p>注意"单个商品就是价格之比，一组商品就是<strong>加权</strong>价格之比"——衣服涨了 50% 最猛，但权重小，掀不起大浪。</p>
+
+<div class="calc" data-answer="497" data-tol="0.5" data-unit="元" data-explain="42 + 15 + 440 = 497 元：每样商品的现期价格 × 权重，加总即得。">
+  <p class="q">① 现期买齐同一篮子商品要花多少元？</p>
+  <input type="text" inputmode="decimal" aria-label="答案"><button type="button">提交</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="calc" data-answer="112" data-tol="1" data-explain="现期 CPI = 497 ÷ 445 × 100 ≈ 112（老师 PPT 取整数 112）。">
+  <p class="q">② 现期 CPI 是多少（基期 = 100）？</p>
+  <input type="text" inputmode="decimal" aria-label="答案"><button type="button">提交</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="calc" data-answer="12" data-tol="1" data-unit="%" data-explain="CPI 从 100 涨到 112，通胀率 = 12%。指数涨多少，物价就涨多少。">
+  <p class="q">③ 这段时期的通货膨胀率是多少（%）？</p>
+  <input type="text" inputmode="decimal" aria-label="答案"><button type="button">提交</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="calc" data-answer="0.89" data-tol="0.01" data-explain="通胀 12% 后，1 元的购买力 = 1 ÷ 1.12 ≈ 0.89 元。钱没少，能买的东西少了约 11%。">
+  <p class="q">④ 通胀后，1 元的购买力相当于原来的多少元（保留两位小数）？</p>
+  <input type="text" inputmode="decimal" aria-label="答案"><button type="button">提交</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="mcq">
+  <p class="q">（02 PPT 原题）判断：通货膨胀率是 2%，意味着所有商品的价格都上涨了 2%。</p>
+  <button class="opt" data-explain="再想想：通胀是『平均/普遍』意义上的概念。">对，平均下来人人如此</button>
+  <button class="opt" data-correct="true" data-explain="2% 是加权平均涨幅：有的商品涨 10%，有的可能还跌了。这正是『权重』存在的意义——衣服涨 50% 也被小权重摊薄了。">错，只是加权的平均水平</button>
+  <p class="feedback"></p>
+</div>
+
+<h2>看懂财经新闻（马上可用）</h2>
+<p>这是 02 PPT 引用的真实发布会问答（国家统计局例行发布）：</p>
+<blockquote>"7 月份 CPI 同比上涨 2.7%，涨幅比上月扩大 0.2 个百分点……主要原因是食品价格上涨：7 月份食品价格同比上涨 13.2%，影响居民消费价格总涨幅的 99.3%；其中猪肉价格同比上涨 85.7%，影响居民消费价格上涨 2.3 个百分点；鲜菜上涨 7.9%，影响近 0.2 个百分点。"</blockquote>
+<p>学会拆这句话，你就学会了"用 CPI 的语言读新闻"：</p>
+<div class="mcq">
+  <p class="q">发布会上说"猪肉上涨影响 CPI 上涨 2.3 个百分点"，这句话的正确理解是：</p>
+  <button class="opt" data-correct="true" data-explain="2.7 个百分点的总涨幅里，约 2.3 个是猪肉贡献的——『影响 = 涨幅 × 权重』，猪肉涨得猛、权重又大，所以是主要推动因素。这也解释了为什么那几年新闻老盯着猪说话：『猪周期』几乎就是 CPI 的代名词。">CPI 涨的 2.7 个百分点中，约 2.3 个来自猪肉</button>
+  <button class="opt" data-explain="方向反了：不是猪肉因此涨 2.3%，而是 CPI 因此涨 2.3 个百分点。">猪肉价格因此上涨了 2.3%</button>
+  <button class="opt" data-explain="百分点和百分比不是一回事：2.7% 涨到 5% 叫『扩大 2.3 个百分点』，不能混用。">CPI 从 2.3% 涨到了 2.7%</button>
+  <p class="feedback"></p>
+</div>
+<div class="mcq">
+  <p class="q">同月食品整体只涨 13.2%，却"影响总涨幅的 99.3%"，说明：</p>
+  <button class="opt" data-explain="99.3% 是贡献占比（2.7 × 99.3% ≈ 2.68 个百分点几乎全部来自食品），不是食品权重。">食品在 CPI 中的权重是 99.3%</button>
+  <button class="opt" data-correct="true" data-explain="涨幅 × 权重 = 贡献。食品涨幅大、权重又最高（中国口径 28–30%），两相乘后贡献几乎占满了 CPI 的全部涨幅——非食品类当月基本没涨。">当月 CPI 的上涨几乎全部由食品推动</button>
+  <button class="opt" data-explain="发布会数据直接否定了这一点：涨的是食品，其他类平稳。">统计局计算方法有问题</button>
+  <p class="feedback"></p>
+</div>
+
+<div class="calc" data-answer="0.8" data-tol="0.05" data-unit="%" data-explain="实际收益 = 名义收益率 − 通胀率 = 3.5% − 2.7% = 0.8%。存款利率跑不跑得赢物价，一减就知道——这是 CPI 和你钱包最直接的关系。">
+  <p class="q">生活贴士：一年期理财名义收益率 3.5%，当年 CPI 上涨 2.7%，实际收益率是多少（%）？</p>
+  <input type="text" inputmode="decimal" aria-label="答案"><button type="button">提交</button>
+  <p class="feedback"></p>
+</div>
+
+<h3>其他价格指数：各有分工</h3>
+<table>
+  <tr><th>指数</th><th>看什么</th></tr>
+  <tr><td>PPI（生产者价格指数）</td><td>农业、工业、建筑业产品的出厂价格变动——通胀的"上游信号"</td></tr>
+  <tr><td>农业生产资料价格指数</td><td>化肥、种子等农资价格变动</td></tr>
+  <tr><td>房地产价格指数</td><td>房屋销售、租赁及土地交易价格变动</td></tr>
+  <tr><td>进出口价格指数</td><td>进出口产品价格变动</td></tr>
+</table>
+<div class="mcq">
+  <p class="q">新闻报道"工业企业出厂价格持续下跌"，应该查哪个指数验证？</p>
+  <button class="opt" data-explain="CPI 看的是消费者买的消费品，不是工厂出厂价。">CPI</button>
+  <button class="opt" data-correct="true" data-explain="PPI（Producer Price Index）覆盖农业、工业、建筑业产品价格变动，正是『出厂价』。PPI 长期低于 CPI 时，往往意味着上游通缩压力在向下游传导。">PPI</button>
+  <button class="opt" data-explain="房地产价格指数只管房子和土地。">房地产价格指数</button>
+  <p class="feedback"></p>
+</div>
+
+<h2>课后（10 分钟）</h2>
+<ul>
+  <li>对照马工程教材第 9 章"价格水平及其衡量"小节，核对 CPI 的 8 大类与"基期 5 年一调"的表述。</li>
+  <li>顺手查一下最新一个月的全国 CPI 同比（国家统计局官网"新闻发布"栏），照本页"看懂财经新闻"的格式，写一句"涨幅 × 权重 = 贡献"的拆解。</li>
+  <li>思考题（下节课讨论）：猪肉权重该不该调低？——PPT 课后阅读《猪肉在 CPI 中的权重被调低了吗？》。</li>
+</ul>
+
+<div class="teacher-note">
+  <strong>记得问我问题。</strong> 比如：① 这页哪道 calc 错了，发给我出变式；② 想练"给定两年 CPI 求 通胀率/购买力"的连环题，我可以出一套；③ 下一讲《失业及其衡量》已生成：<a href="ppt-review-03-employment.html">点这里</a>。
+</div>
+
+<div class="nav-links">
+  <a href="ppt-review-intro-and-gdp.html">← GDP 第一节</a> · <a href="circular-flow-animation.html">循环动画</a> · <a href="ppt-review-03-employment.html">第三节 失业 →</a> · <a href="../reference/gdp-accounting.html">速查表</a>
+</div>
+
+<script src="../assets/quiz.js"></script>
+</body>
+</html>
