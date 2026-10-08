@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>经济循环：为什么 产出 = 支出 = 收入（交互动画）</title>
+<style>
+  :root {
+    --ink: #1a1a1a; --muted: #555; --accent: #8b0000; --rule: #ddd;
+    --stage-bg: #16213a; --warm: #f0a35e; --cool: #7fb3d5; --hi: #ffd94d;
+  }
+  html { font-size: 17px; }
+  body {
+    font-family: "Songti SC", "Noto Serif CJK SC", Georgia, serif;
+    color: var(--ink); background: #fffff8; line-height: 1.75;
+    max-width: 46rem; margin: 0 auto; padding: 2.5rem 1.2rem 4rem;
+  }
+  h1 { font-size: 1.6rem; margin-bottom: 0.2em; }
+  h2 { font-size: 1.2rem; margin-top: 2.4em; border-bottom: 1px solid var(--rule); padding-bottom: 0.25em; }
+  h3 { font-size: 1.02rem; margin-top: 1.6em; }
+  .subtitle { color: var(--muted); font-size: 0.92rem; margin-top: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 1.2em 0; font-size: 0.9rem; }
+  th, td { text-align: left; padding: 0.45em 0.6em; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { border-bottom: 2px solid var(--ink); }
+  .formula { text-align: center; font-size: 1.1rem; margin: 1.3em 0; font-style: italic; }
+  details.reveal { border: 1px solid var(--rule); border-radius: 6px; padding: 0.6em 1em; margin: 1em 0; background: #fff; }
+  details.reveal summary { cursor: pointer; font-weight: 600; color: var(--accent); }
+  details.reveal p { margin: 0.6em 0 0.2em; }
+
+  /* —— 动画舞台（深色投屏背景） —— */
+  .stage-wrap { border-radius: 10px; overflow: hidden; box-shadow: 0 2px 14px rgba(0,0,0,.18); margin: 1.4em 0 0.8em; }
+  svg#stage { display: block; width: 100%; height: auto; background: var(--stage-bg); }
+  .controls {
+    display: flex; flex-wrap: wrap; gap: 0.5em; align-items: center;
+    background: #0e1730; padding: 0.7em 0.9em;
+  }
+  .controls button {
+    font: inherit; font-size: 0.86rem; cursor: pointer;
+    background: #1e2c52; color: #dbe6ff; border: 1px solid #3a4c85;
+    border-radius: 5px; padding: 0.35em 0.85em;
+  }
+  .controls button.on { background: var(--hi); color: #16213a; border-color: var(--hi); font-weight: 700; }
+  .stage-note { font-size: 0.9rem; color: var(--muted); margin: 0.6em 0 0; min-height: 3.2em; }
+  .stage-note b { color: var(--accent); }
+
+  /* SVG 分组按阶段显隐 */
+  #g-fin, #g-gov, #g-for { display: none; }
+  svg.s2 #g-fin, svg.s3 #g-fin, svg.s3 #g-gov, svg.s4 #g-fin, svg.s4 #g-gov, svg.s4 #g-for { display: inline; }
+  #eq-fin, #eq-gov, #eq-for { display: none; }
+  svg.s2 #eq-fin, svg.s3 #eq-gov, svg.s4 #eq-for { display: inline; }
+
+  /* 三本账视角高亮 */
+  svg.view-exp #p-exp, svg.view-inc #p-inc, svg.view-out #p-out, svg.view-out #p-lab, svg.view-out #p-gds { stroke-width: 4; }
+  svg.view-exp #p-inc, svg.view-exp #p-out, svg.view-exp #p-lab, svg.view-exp #p-gds,
+  svg.view-inc #p-exp, svg.view-inc #p-out, svg.view-inc #p-lab, svg.view-inc #p-gds,
+  svg.view-out #p-exp, svg.view-out #p-inc { opacity: 0.25; }
+  svg.view-exp text.v-exp, svg.view-inc text.v-inc, svg.view-out text.v-out { fill: var(--hi); font-weight: 700; }
+  text.v-badge { opacity: 0; transition: opacity .3s; }
+  svg.view-exp .v-badge, svg.view-inc .v-badge, svg.view-out .v-badge { opacity: 1; }
+
+  .warn { border: 1px solid var(--accent); border-radius: 6px; padding: 0.7em 1em; background: #fdf6f5; font-size: 0.92rem; }
+  .cite { font-size: 0.82rem; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<h1>经济循环：为什么 产出 = 支出 = 收入</h1>
+<p class="subtitle">单文件交互动画 · 对应《02 PPT》第一节"循环流程图"部分 · 建议配教程第 9 章图 9-1 使用</p>
+
+<h2>先把话说透：三本账记的是同一笔钱</h2>
+<p>早餐店这个月卖了 3 万元包子。这笔钱在经济学里同时是三件事：</p>
+<table>
+  <tr><th>视角</th><th>谁在记</th><th>这笔钱叫什么</th></tr>
+  <tr><td>买的人花了 3 万</td><td>购买者（家庭）</td><td><b>支出</b></td></tr>
+  <tr><td>店里做出 3 万的包子</td><td>生产者（企业）</td><td><b>产出</b></td></tr>
+  <tr><td>这 3 万变成工资、利润等发出去</td><td>要素所有者（家庭）</td><td><b>收入</b></td></tr>
+</table>
+<p>一笔交易，三个账本，<strong>金额必然相同</strong>——因为它们不是三次不同的交易，而是同一枚硬币在循环里被三次"看到"。买者的支出不会凭空消失：它一离开你的口袋，就成了卖者的收入；卖者拿到钱，又源自他卖出的东西（产出）。买者不买、产出卖不掉、收入发不出——三者同涨同跌，所以恒等：</p>
+<p class="formula">产出 = 支出 = 收入</p>
+<p>这不是三条规律恰好相等，而是<strong>同一笔货币循环流的三种记账角度</strong>。循环流程图画的，就是这条看不见的"货币环河"。</p>
+
+<h2>现实中的经济循环，经济学是怎么简化的</h2>
+<p>现实经济每天发生几十亿次交易：有政府、银行、股市、外贸、网购、地摊……不可能全画进一张图。经济学家做了三层"雕刻"——每按一次下面的按钮，就多雕一刀（或先看最简版，再逐步还原）：</p>
+
+<div class="stage-wrap">
+<svg id="stage" class="s1" viewBox="0 0 900 620" role="img" aria-label="经济循环流程图动画">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#f0a35e"/>
+    </marker>
+    <marker id="ahc" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#7fb3d5"/>
+    </marker>
+  </defs>
+
+  <!-- 均衡结论框（明黄=结论） -->
+  <g font-family="PingFang SC, sans-serif">
+    <rect x="30" y="24" width="300" height="112" rx="8" fill="#0e1730" stroke="#3a4c85"/>
+    <text x="180" y="54" text-anchor="middle" fill="#ffd94d" font-size="16" font-weight="700">宏观均衡：总漏出 = 总注入</text>
+    <text x="180" y="82" text-anchor="middle" fill="#ffd94d" font-size="15" id="eq-fin">S = I（储蓄 = 投资）</text>
+    <text x="180" y="82" text-anchor="middle" fill="#ffd94d" font-size="15" id="eq-gov">S + T = I + G</text>
+    <text x="180" y="82" text-anchor="middle" fill="#ffd94d" font-size="15" id="eq-for">S + T + M = I + G + X</text>
+    <text x="180" y="112" text-anchor="middle" fill="#9fb3dd" font-size="12.5" id="eq-sub">漏出去的钱，必须由注入补回来</text>
+  </g>
+
+  <!-- 主体节点 -->
+  <g font-family="PingFang SC, sans-serif" text-anchor="middle">
+    <rect x="370" y="28" width="180" height="58" rx="9" fill="#24345e" stroke="#4a5f9e"/>
+    <text x="460" y="53" fill="#e8efff" font-size="17" font-weight="700">企 业</text>
+    <text x="460" y="74" fill="#9fb3dd" font-size="12">生产者 · 卖产品 · 买要素</text>
+    <rect x="370" y="536" width="180" height="58" rx="9" fill="#24345e" stroke="#4a5f9e"/>
+    <text x="460" y="561" fill="#e8efff" font-size="17" font-weight="700">家 庭</text>
+    <text x="460" y="582" fill="#9fb3dd" font-size="12">消费者 · 卖劳动 · 买东西</text>
+  </g>
+
+  <!-- 四条主干流 -->
+  <g fill="none" font-family="PingFang SC, sans-serif">
+    <path id="p-exp" d="M 300 532 L 300 92" stroke="#f0a35e" stroke-width="2.6" marker-end="url(#ah)"/>
+    <path id="p-lab" d="M 390 532 L 390 92" stroke="#7fb3d5" stroke-width="2.2" marker-end="url(#ahc)"/>
+    <path id="p-gds" d="M 530 92 L 530 532" stroke="#7fb3d5" stroke-width="2.2" marker-end="url(#ahc)"/>
+    <path id="p-inc" d="M 620 92 L 620 532" stroke="#f0a35e" stroke-width="2.6" marker-end="url(#ah)"/>
+  </g>
+  <g font-family="PingFang SC, sans-serif" font-size="13.5" fill="#e8d9c4">
+    <text x="286" y="240" text-anchor="end" class="v-exp">消费支出（货币 ↑）</text>
+    <text x="286" y="262" text-anchor="end" fill="#8d7f6a" font-size="11.5" class="v-badge v-exp">买者视角：这是支出</text>
+    <text x="402" y="380" class="v-out">劳动·土地·资本（实物 ↑）</text>
+    <text x="402" y="398" fill="#5f7d9c" font-size="11.5">家庭供给要素</text>
+    <text x="518" y="200" text-anchor="end" class="v-out">产品与服务（实物 ↓）</text>
+    <text x="518" y="218" text-anchor="end" fill="#5f7d9c" font-size="11.5">企业供给产品</text>
+    <text x="634" y="380" class="v-inc">工资·利息·租金·利润（货币 ↓）</text>
+    <text x="634" y="398" fill="#8d7f6a" font-size="11.5" class="v-badge v-inc">卖要素视角：这是收入</text>
+  </g>
+
+  <!-- 流动的小圆点（货币=暖，实物=冷） -->
+  <g>
+    <circle r="5" fill="#f0a35e"><animateMotion dur="4.5s" repeatCount="indefinite" begin="0s"><mpath href="#p-exp"/></animateMotion></circle>
+    <circle r="5" fill="#f0a35e"><animateMotion dur="4.5s" repeatCount="indefinite" begin="1.5s"><mpath href="#p-exp"/></animateMotion></circle>
+    <circle r="5" fill="#f0a35e"><animateMotion dur="4.5s" repeatCount="indefinite" begin="3s"><mpath href="#p-exp"/></animateMotion></circle>
+    <circle r="4.5" fill="#f7c896"><animateMotion dur="4.5s" repeatCount="indefinite" begin="0.7s"><mpath href="#p-inc"/></animateMotion></circle>
+    <circle r="4.5" fill="#f7c896"><animateMotion dur="4.5s" repeatCount="indefinite" begin="2.2s"><mpath href="#p-inc"/></animateMotion></circle>
+    <circle r="4.5" fill="#f7c896"><animateMotion dur="4.5s" repeatCount="indefinite" begin="3.7s"><mpath href="#p-inc"/></animateMotion></circle>
+    <circle r="4" fill="#7fb3d5"><animateMotion dur="5.5s" repeatCount="indefinite" begin="0.4s"><mpath href="#p-lab"/></animateMotion></circle>
+    <circle r="4" fill="#7fb3d5"><animateMotion dur="5.5s" repeatCount="indefinite" begin="3.1s"><mpath href="#p-lab"/></animateMotion></circle>
+    <circle r="4" fill="#7fb3d5"><animateMotion dur="5.5s" repeatCount="indefinite" begin="0.9s"><mpath href="#p-gds"/></animateMotion></circle>
+    <circle r="4" fill="#7fb3d5"><animateMotion dur="5.5s" repeatCount="indefinite" begin="3.6s"><mpath href="#p-gds"/></animateMotion></circle>
+  </g>
+
+  <!-- 第二刀：金融市场（储蓄漏出 / 投资注入） -->
+  <g id="g-fin" font-family="PingFang SC, sans-serif">
+    <path d="M 366 566 C 240 566 180 470 180 352" fill="none" stroke="#f0a35e" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#ah)"/>
+    <path d="M 112 286 C 112 170 210 62 362 58" fill="none" stroke="#f0a35e" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#ah)"/>
+    <rect x="42" y="292" width="140" height="58" rx="9" fill="#1b2a50" stroke="#4a5f9e"/>
+    <text x="112" y="317" text-anchor="middle" fill="#e8efff" font-size="15" font-weight="700">金融市场</text>
+    <text x="112" y="338" text-anchor="middle" fill="#9fb3dd" font-size="11.5">钱的蓄水池</text>
+    <text x="252" y="522" fill="#f0c696" font-size="13">储蓄（漏出）</text>
+    <text x="132" y="150" fill="#f0c696" font-size="13">投资（注入）</text>
+    <circle r="4" fill="#ffd94d"><animateMotion dur="5s" repeatCount="indefinite"><mpath href="M 366 566 C 240 566 180 470 180 352"/></animateMotion></circle>
+    <circle r="4" fill="#ffd94d"><animateMotion dur="5s" repeatCount="indefinite" begin="2.5s"><mpath href="M 112 286 C 112 170 210 62 362 58"/></animateMotion></circle>
+  </g>
+
+  <!-- 第三刀：政府 -->
+  <g id="g-gov" font-family="PingFang SC, sans-serif">
+    <path d="M 554 64 C 660 96 758 190 772 280" fill="none" stroke="#f0a35e" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#ah)"/>
+    <path d="M 554 552 C 680 520 766 434 776 350" fill="none" stroke="#f0a35e" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#ah)"/>
+    <path d="M 688 296 C 620 260 588 150 556 86" fill="none" stroke="#f0a35e" stroke-width="2.4" marker-end="url(#ah)"/>
+    <rect x="690" y="286" width="182" height="58" rx="9" fill="#1b2a50" stroke="#4a5f9e"/>
+    <text x="781" y="311" text-anchor="middle" fill="#e8efff" font-size="15" font-weight="700">政 府</text>
+    <text x="781" y="332" text-anchor="middle" fill="#9fb3dd" font-size="11.5">收税 · 购买 · 转移支付</text>
+    <text x="700" y="140" fill="#f0c696" font-size="13">税收（漏出）</text>
+    <text x="700" y="490" fill="#f0c696" font-size="13">税收（漏出）</text>
+    <text x="596" y="206" fill="#f0c696" font-size="13">政府购买 G（注入）</text>
+  </g>
+
+  <!-- 第四刀：国外部门 -->
+  <g id="g-for" font-family="PingFang SC, sans-serif">
+    <path d="M 690 60 L 560 60" fill="none" stroke="#f0a35e" stroke-width="2.4" marker-end="url(#ah)"/>
+    <path d="M 560 572 C 800 572 878 240 846 96" fill="none" stroke="#f0a35e" stroke-width="2" stroke-dasharray="7 5" marker-end="url(#ah)"/>
+    <rect x="694" y="28" width="180" height="58" rx="9" fill="#1b2a50" stroke="#4a5f9e"/>
+    <text x="784" y="53" text-anchor="middle" fill="#e8efff" font-size="15" font-weight="700">国外部门</text>
+    <text x="784" y="74" text-anchor="middle" fill="#9fb3dd" font-size="11.5">出口换钱进来 · 进口花钱出去</text>
+    <text x="596" y="46" fill="#f0c696" font-size="13">出口 X（注入）</text>
+    <text x="806" y="330" fill="#f0c696" font-size="13">进口 M（漏出）</text>
+  </g>
+</svg>
+
+<div class="controls">
+  <button data-s="s1" class="on">① 两部门（最简）</button>
+  <button data-s="s2">② + 金融市场</button>
+  <button data-s="s3">③ + 政府</button>
+  <button data-s="s4">④ + 国外（完整循环）</button>
+  <span style="flex:1"></span>
+  <button id="btn-view" title="切换三本账视角">三本账视角：全部</button>
+  <button id="btn-play">⏸ 暂停流动</button>
+</div>
+<p class="stage-note" id="stage-note"><b>① 两部门：</b>先假设世界上只有家庭和企业两个主体，没有政府、没有储蓄银行、没有外贸——这是教科书刻意做的"最小化实验"。看内圈（冷色）：家庭把<strong>劳动</strong>流向企业，企业把<strong>产品</strong>流回家庭，这是<strong>实物流</strong>；看外圈（暖色）：家庭支出的<strong>货币</strong>向上流，企业发出的<strong>收入</strong>向下流，这是<strong>货币流</strong>。两层循环方向相反、金额对应：产品换钱、劳动换钱，谁也不欠谁。下一刀，把被我们"关掉"的现实一层层放回来。</p>
+</div>
+
+<h3>三刀简化，各自砍掉了什么</h3>
+<table>
+  <tr><th>刀</th><th>放回来的现实</th><th>循环里的身份</th><th>一句话意义</th></tr>
+  <tr><td>② 金融市场</td><td>家庭不把钱全花掉，会储蓄；企业要借钱投资</td><td>储蓄 = <b>漏出</b>（钱离开消费环）<br>投资 = <b>注入</b>（钱回到环里）</td><td>引入"钱可以暂时退出循环"——这正是第 2 章收入-支出模型的主角</td></tr>
+  <tr><td>③ 政府</td><td>税收拿走一部分收入；政府购买、补贴花钱</td><td>税收 = 漏出<br>政府购买 G = 注入</td><td>政府多花一块钱，顺着循环会被放大——财政政策的理论地基</td></tr>
+  <tr><td>④ 国外部门</td><td>出口把钱从外国赚进来，进口把钱花出去</td><td>进口 M = 漏出<br>出口 X = 注入</td><td>完整的四部门恒等式：Y = C + I + G + NX</td></tr>
+</table>
+
+<p>注意一个反复出现的对称结构：<strong>每一刀都同时引入一条漏出和一条对应的注入</strong>。这暗示了宏观均衡的核心思想——</p>
+<p class="formula">均衡条件：总漏出 = 总注入（S + T + M = I + G + X）</p>
+<p>漏出是"环里的水被舀出去"，注入是"往环里补水"。水位（总产出）升降，不看某一笔钱，只看<strong>总漏出与总注入谁大</strong>。这个水位，就是 GDP 的涨落。</p>
+
+<h2>为什么这种循环思想在宏观经济学中"再强调也不为过"</h2>
+
+<h3>1 · 它直接生成了 GDP 的三种核算方法</h3>
+<p>既然产出 = 支出 = 收入，就可以从三个口子各量一次 GDP：<strong>生产法</strong>（数最终产品）、<strong>支出法</strong>（C+I+G+NX）、<strong>收入法</strong>（工资+利息+租金+利润）。三种方法不是三种不同的 GDP，而是同一条循环河在三个水文站的读数——所以教材第 9 章图 9-1 就是循环图，恒等式就从这里长出来。</p>
+
+<h3>2 · "一个人的支出是另一个人的收入"——乘数效应的心脏</h3>
+<p>你花 100 元买包子 → 店主收入 +100 → 店主按边际消费倾向花掉比如 80 元 → 面粉商收入 +80 → 再花 64 元……支出变收入、收入再变支出，循环像回声一样衰减但层层传递，加总远大于最初的 100 元——这就是<strong>乘数</strong>。没有循环思想，乘数公式 α = 1/(1−MPC) 只是个代数把戏；有了循环思想，它就是"环里多注一瓢水，全河都涨水"。</p>
+
+<h3>3 · 萧条与繁荣，都是循环在转快或转慢</h3>
+<p>回头看 01 PPT 那个"没煤"的对话：不买煤 → 煤商收入减少 → 煤商少买米 → 米商收入减少 → ……每个人"理性地捂紧钱包"，加总起来却是全体收入下降——<strong>支出的收缩沿着循环自我实现</strong>。大萧条就是一次大规模的"环流转慢"；凯恩斯革命开出的药方（政府增加购买 G），本质是<strong>从外面往环里强行注水</strong>，把漏掉的需求补回来。第 2 章的均衡收入决定、第 6 章的财政货币政策，全部建立在这幅图上。</p>
+
+<h3>4 · 它是全书三大模型共同的底层地图</h3>
+<table>
+  <tr><th>后续章节</th><th>循环思想在哪起作用</th></tr>
+  <tr><td>第 2 章 收入-支出模型</td><td>两部门循环 + 漏出注入 → 均衡产出、乘数</td></tr>
+  <tr><td>第 3 章 IS-LM</td><td>IS 曲线就是商品市场循环的均衡轨迹（投资=储蓄的利率组合）</td></tr>
+  <tr><td>第 4 章 AD-AS</td><td>总需求 C+I+G+NX 逐层汇成总需求曲线</td></tr>
+  <tr><td>第 6 章 宏观政策</td><td>财政（G、T）与货币（I）都是往循环里"注水"或"抽水"的阀门</td></tr>
+</table>
+
+<h2>自测三题（先自己想，再点开）</h2>
+<details class="reveal">
+  <summary>① 政府给公务员发工资计入 G，给低保户发补贴却不计入 G——用循环图解释区别。</summary>
+  <p>公务员工资换来的是当期的公共服务产出（守边、办证、教学），钱是<strong>买产品/服务</strong>进入循环的支出，计入 G；低保补贴是单纯的<strong>转移支付</strong>——钱换了主人，但循环里没有对应的新产品流出来（低保户拿钱去买菜时，才作为他的 C 进入循环）。判据：<strong>看支出有没有实物/服务流与之对应</strong>。</p>
+</details>
+<details class="reveal">
+  <summary>② 假如家家都增加储蓄，而企业不增加投资，循环的水位怎么走？</summary>
+  <p>储蓄是漏出，投资是注入。漏出 > 注入，环里货币变少 → 企业的销售额（产出）下降 → 发给家庭的收入下降 → 家庭被迫削减消费甚至储蓄本身——最终总收入收缩，储蓄总量未必增加（因为收入基数变小了）。这就是著名的"节俭悖论"伏笔，第 2 章正式登场。</p>
+</details>
+<details class="reveal">
+  <summary>③ 央行降息，用"漏出-注入"的语言说一遍传导路径。</summary>
+  <p>降息 → 储蓄的回报降低、贷款成本降低 → 储蓄漏出减少、投资注入增加 → 注入 > 漏出，循环扩张 → 产出与收入上升。一句话：<strong>利率是调节"漏出与注入"的闸门之一</strong>——这是第 3 章 LM 曲线的直觉底子。</p>
+</details>
+
+<h2>课后</h2>
+<ul>
+  <li>打开本页动画，把四个阶段各走一遍，对着图口述一遍恒等式"产出 = 支出 = 收入"的来龙去脉——能脱稿讲给同学听，才算真懂。</li>
+  <li>对照教材第 9 章图 9-1（两部门循环图）与本页阶段①，确认口径一致。</li>
+  <li>预习伏笔：第 2 章将从"注入 &gt; 漏出 / 漏出 &gt; 注入"出发，正式推导均衡产出与乘数。</li>
+</ul>
+
+<div class="warn">
+  <strong>使用方式：</strong>本页为单文件 HTML，双击即可在任意浏览器离线打开，也适合投屏。交互共 3 处：① 阶段按钮（两部门→金融市场→政府→国外，逐层还原现实）；② "三本账视角"按钮（高亮支出/收入/产出三种记账角度）；③ 暂停/继续按钮（讲课时随时定格画面）。色彩约定：暖橙色 = 货币流（驱动因），蓝 = 实物流（被驱动），明黄 = 结论。
+</div>
+
+<script>
+(function () {
+  "use strict";
+  var svg = document.getElementById("stage");
+  var note = document.getElementById("stage-note");
+  var notes = {
+    s1: '<b>① 两部门：</b>只有家庭和企业。内圈冷色是实物流（劳动上、产品下），外圈暖色是货币流（支出上、收入下）。两层循环方向相反、金额对应——这就是"产出 = 支出 = 收入"的图形来源。',
+    s2: '<b>② + 金融市场：</b>家庭的钱不全花掉——储蓄是<strong>漏出</strong>（虚线离开消费环）；企业借钱投资——投资是<strong>注入</strong>（虚线回到环里）。均衡时 S = I。这是第 2 章收入-支出模型的主战场。',
+    s3: '<b>③ + 政府：</b>税收从家庭和企业两头<strong>漏出</strong>；政府购买 G 是<strong>注入</strong>。政府多花一块钱顺着循环层层放大——财政政策的直觉从这里来。均衡：S + T = I + G。',
+    s4: '<b>④ + 国外部门（完整循环）：</b>出口 X 换钱进来（注入），进口 M 花钱出去（漏出）。至此四部门闭环，恒等式 Y = C + I + G + NX 的每一项都能在图上找到位置。均衡：S + T + M = I + G + X。'
+  };
+  var btns = document.querySelectorAll(".controls button[data-s]");
+  btns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      btns.forEach(function (x) { x.classList.remove("on"); });
+      b.classList.add("on");
+      svg.classList.remove("s1", "s2", "s3", "s4");
+      svg.classList.add(b.dataset.s);
+      note.innerHTML = notes[b.dataset.s];
+    });
+  });
+
+  var views = [["全部", ""], ["支出账", "view-exp"], ["收入账", "view-inc"], ["产出账", "view-out"]];
+  var vi = 0, vbtn = document.getElementById("btn-view");
+  vbtn.addEventListener("click", function () {
+    vi = (vi + 1) % views.length;
+    views.forEach(function (v) { svg.classList.remove(v[1]); });
+    if (views[vi][1]) svg.classList.add(views[vi][1]);
+    vbtn.textContent = "三本账视角：" + views[vi][0];
+  });
+
+  var pbtn = document.getElementById("btn-play"), playing = true;
+  pbtn.addEventListener("click", function () {
+    playing = !playing;
+    if (playing) { svg.unpauseAnimations(); pbtn.textContent = "⏸ 暂停流动"; }
+    else { svg.pauseAnimations(); pbtn.textContent = "▶ 继续流动"; }
+  });
+})();
+</script>
+</body>
+</html>
